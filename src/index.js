@@ -17,7 +17,8 @@ async function onSubmit(ev) {
     const value = ev.currentTarget.elements.searchQuery.value.trim();
     if (value === "") return;
     page = 1;
-    squery = value
+    clearWrapper();
+    squery = value;
     const res = await getUrl(value, page); 
     createMurkup(res);
     refs.form.reset();
@@ -51,5 +52,9 @@ async function onLoadMore() {
     `).join('');
     console.log(murkup);
      refs.wrapper.insertAdjacentHTML('beforeend', murkup);
+}
+
+function clearWrapper() {
+    refs.wrapper.innerHTML = '';
 }
 
