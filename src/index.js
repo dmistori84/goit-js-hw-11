@@ -18,7 +18,10 @@ async function onSubmit(ev) {
     ev.preventDefault();
     refs.btnLoadMore.classList.remove('is-hidden');
     const value = ev.currentTarget.elements.searchQuery.value.trim();
-    if (value === "") return;
+    if (value === "") {
+        Notify.info("Enter a request")
+        return
+    } else
     page = 1;    
     clearWrapper();
     squery = value;
