@@ -2,17 +2,30 @@ import { getUrl } from "./api.js";
 
 const refs = {
     form: document.querySelector('.search-form'),
-    wrapper: document.querySelector('.gallery')
+    wrapper: document.querySelector('.gallery'),
+    btnLoadMore: document.querySelector('.load-more')
 }
 
+let page = 1;
+let squery = "";
+
 refs.form.addEventListener('submit', onSubmit);
+refs.btnLoadMore.addEventListener('click', onLoadMore);
 
 async function onSubmit(ev) {
     ev.preventDefault();
     const value = ev.currentTarget.elements.searchQuery.value.trim();
     if (value === "") return;
-    const res = await getUrl(value); 
-    console.log('onSubmit ~ res:', res)
+    page = 1;
+    squery = value
+    const res = await getUrl(value, page); 
+    createMurkup(res);
+    refs.form.reset();
+}
+
+async function onLoadMore() {
+    page += 1;
+    const res = await getUrl(squery, page); 
     createMurkup(res);
 }
 
@@ -37,6 +50,6 @@ async function onSubmit(ev) {
     </div>        
     `).join('');
     console.log(murkup);
-    refs.wrapper.insertAdjacentHTML('beforeend', murkup)
+     refs.wrapper.insertAdjacentHTML('beforeend', murkup);
 }
 
