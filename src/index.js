@@ -31,11 +31,17 @@ async function onSubmit(ev) {
         return Notify.failure("Sorry, there are no images matching your search query. Please try again.")
     }
     createMurkup(res);
+    if (res.length < 40) {
+      Notify.warning("We're sorry, but you've reached the end of search results.");
+      refs.btnLoadMore.classList.add('is-hidden');
+    //   loadMoreBtn.hide();
+    //   downBtn.hide();
+    }
     refs.form.reset();
 }
 
 async function onLoadMore() {
-    refs.btnLoadMore.setAttribute('disabled', true)
+    refs.btnLoadMore.setAttribute('disabled', true);
     page += 1;
     const res = await getUrl(squery, page); 
     createMurkup(res);
@@ -62,7 +68,6 @@ async function onLoadMore() {
         </div>
     </div>        
     `).join('');
-    console.log(murkup);
      refs.wrapper.insertAdjacentHTML('beforeend', murkup);
 }
 
